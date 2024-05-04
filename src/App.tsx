@@ -1,26 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useContext, useEffect, useState } from "react";
+import "./App.css";
+import UserProvider, { UserContext } from "./contexts/UserContext";
+
+function UserDetails(){
+
+  const {user} = useContext(UserContext)
+
+  return(
+    <>
+      <p>User Name:{user.name}</p>
+      <p>User Email:{user.email}</p>
+    </>
+  )
+}
+
+function AnotherComponent(){
+
+  const {user, setUser} = useContext(UserContext);
+
+  useEffect(() => {
+    setUser({
+      name: "Roger",
+      email: "manzoroger08@gmail.com"
+    })
+  }, [])
+
+  return(
+    <>
+      <p>Some other component</p>
+    </>
+  )
+}
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <UserProvider>
+      <UserDetails />
+
+      <AnotherComponent />
+    </UserProvider>
+  )
 }
 
 export default App;
